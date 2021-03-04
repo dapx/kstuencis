@@ -13,14 +13,23 @@ import kstuencis.counter.CounterParser
 import kstuencis.counter.CounterSerializer
 import kstuencis.counter.CounterState
 
-fun main(args: Array<String>) {
-    val counterListener = ConsoleListener(CounterParser, CounterState)
+fun main() {
+    val counterConsoleListener = ConsoleListener(
+        parser = CounterParser,
+        store = CounterState
+    )
+
+    val counterSocketListener = SocketListener(
+        CounterParser,
+        CounterState,
+        port = 9999
+    )
+
     val counterEmitter = ConsoleEmitter(CounterSerializer)
 
     runBlocking {
-        launch {
-            counterListener.listen()
-        }
+        launch { counterSocketListener.listen() }
+        launch { counterConsoleListener.listen() }
 
         // It will work as a game loop with some tick
         // but at this moment It is a basic delay after computing the state.
@@ -33,7 +42,7 @@ fun main(args: Array<String>) {
 
 // TODO - Gracefully shutdown
 suspend fun loop(interval: Long = 0, block: suspend () -> Any) = withContext(Dispatchers.Default) {
-    while(true) {
+    while (true) {
         block()
         delay(interval)
     }
