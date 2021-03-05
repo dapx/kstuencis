@@ -4,7 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.Socket
 
-internal suspend fun Socket.listenMessages(
+typealias NetSocket = Socket
+
+internal suspend fun NetSocket.listenMessages(
     stopMessage: String = "bye",
     block: suspend (message: String) -> Unit
 ) = withContext(Dispatchers.IO) {
@@ -17,6 +19,7 @@ internal suspend fun Socket.listenMessages(
     }
 }
 
-private suspend fun readTextFromInputStream(socket: Socket): String = withContext(Dispatchers.IO) {
+private suspend fun readTextFromInputStream(socket: NetSocket): String = withContext(Dispatchers.IO) {
+    // TODO: Fix inappropriate blocking method
     socket.getInputStream().reader().use { it.readLines().first() }
 }

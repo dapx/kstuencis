@@ -8,6 +8,7 @@ import java.net.Socket
 internal suspend fun ServerSocket.acceptAndExecute(block: suspend Socket.() -> Unit) = withContext(Dispatchers.IO) {
     use { server ->
         while (true) try {
+            // TODO: Fix inappropriate blocking method
             val socket = server.accept()
             socket.block()
         } catch (ex: Exception) {
