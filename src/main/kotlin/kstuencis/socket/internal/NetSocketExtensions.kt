@@ -20,6 +20,5 @@ internal suspend fun NetSocket.listenMessages(
 }
 
 private suspend fun readTextFromInputStream(socket: NetSocket): String = withContext(Dispatchers.IO) {
-    // TODO: Fix inappropriate blocking method
     socket.getInputStream().reader().use { it.readLines().first() }
 }
