@@ -12,6 +12,8 @@ import kstuencis.counter.CounterEmitEvent
 import kstuencis.counter.CounterParser
 import kstuencis.counter.CounterSerializer
 import kstuencis.counter.CounterState
+import kstuencis.socket.listen
+import kstuencis.socket.openSocket
 
 fun main() {
     val counterConsoleListener = ConsoleListener(
@@ -19,16 +21,20 @@ fun main() {
         store = CounterState
     )
 
-    val counterSocketListener = SocketListener(
-        CounterParser,
-        CounterState,
-        port = 9999
-    )
-
     val counterEmitter = ConsoleEmitter(CounterSerializer)
 
     runBlocking {
-        launch { counterSocketListener.listen() }
+        launch {
+            openSocket {
+                onConnect {
+                    println("New connection")
+
+                    listen(messageParser = CounterParser, store = CounterState)
+                }
+            }
+        }
+
+
         launch { counterConsoleListener.listen() }
 
         // It will work as a game loop with some tick
