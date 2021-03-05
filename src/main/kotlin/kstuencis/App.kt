@@ -8,6 +8,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import kstuencis.console.ConsoleEmitter
+import kstuencis.console.ConsoleListener
 import kstuencis.counter.CounterEmitEvent
 import kstuencis.counter.CounterParser
 import kstuencis.counter.CounterSerializer

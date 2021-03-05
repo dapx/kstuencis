@@ -1,6 +1,8 @@
-package kstuencis
+package kstuencis.console
 
-import kstuencis.counter.CounterEmitEvent
+import kstuencis.Emitter
+import kstuencis.Event
+import kstuencis.MessageSerializer
 
 class ConsoleEmitter<T>(private val messageSerializer: MessageSerializer<T>) : Emitter<T> {
     override suspend fun emit(event: Event<T>) {
