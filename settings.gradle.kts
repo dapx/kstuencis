@@ -8,3 +8,10 @@
  */
 
 rootProject.name = "kstuencis"
+
+includeBuild("build-logic")
+includeBuild("modules/core")
+includeBuild("modules/interface/console")
+includeBuild("modules/interface/socket")
+includeBuild("modules/business/counter")
+includeBuild("modules/example")
