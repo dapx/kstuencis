@@ -3,6 +3,7 @@ package kstuencis.socket
 import kstuencis.socket.internal.NetSocket
 import kstuencis.socket.internal.listenMessages
 import kstuencis.socket.internal.acceptAndExecute
+import kstuencis.socket.internal.writeTextToOutputStream
 import java.net.ServerSocket
 
 typealias NetServerSocket = ServerSocket
@@ -20,6 +21,10 @@ private class SocketWrapper(private val socket: NetSocket) : Socket {
         stopMessage,
         block
     )
+
+    override suspend fun emitMessage(block: suspend () -> String) = socket.writeTextToOutputStream(block)
+
+    override fun isClosed(): Boolean = socket.isClosed
 }
 
 suspend fun openSocket(port: Int = 9999, block: suspend SocketServer.() -> Unit) {

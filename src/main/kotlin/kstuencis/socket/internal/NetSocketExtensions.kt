@@ -22,3 +22,7 @@ internal suspend fun NetSocket.listenMessages(
 private suspend fun readTextFromInputStream(socket: NetSocket): String = withContext(Dispatchers.IO) {
     socket.getInputStream().reader().use { it.readLines().first() }
 }
+
+suspend fun NetSocket.writeTextToOutputStream(block: suspend () -> String) = withContext(Dispatchers.IO) {
+    getOutputStream().writer().use{ it.write(block()) }
+}
