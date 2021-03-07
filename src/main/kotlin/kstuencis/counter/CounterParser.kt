@@ -1,6 +1,6 @@
 package kstuencis.counter
 
-import kstuencis.MessageParser
+import kstuencis.core.MessageParser
 
 object CounterParser : MessageParser<Int> {
     override suspend fun parse(text: String): CounterEvent {

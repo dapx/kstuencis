@@ -1,4 +1,4 @@
-package kstuencis
+package kstuencis.core
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

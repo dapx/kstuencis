@@ -3,9 +3,9 @@ package kstuencis.socket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kstuencis.Listener
-import kstuencis.MessageParser
-import kstuencis.Store
+import kstuencis.core.Listener
+import kstuencis.core.MessageParser
+import kstuencis.core.Store
 
 class SocketListener<T>(
     private val messageParser: MessageParser<T>,

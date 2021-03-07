@@ -1,7 +1,7 @@
 package kstuencis.counter
 
-import kstuencis.Event
-import kstuencis.MessageSerializer
+import kstuencis.core.Event
+import kstuencis.core.MessageSerializer
 
 object CounterSerializer : MessageSerializer<Int> {
     override suspend fun serialize(event: Event<Int>): String {

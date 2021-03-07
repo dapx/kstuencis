@@ -1,7 +1,7 @@
 package kstuencis.socket
 
-import kstuencis.MessageParser
-import kstuencis.Store
+import kstuencis.core.MessageParser
+import kstuencis.core.Store
 
 suspend fun <T> Socket.listen(messageParser: MessageParser<T>, store: Store<T>) {
     SocketListener(

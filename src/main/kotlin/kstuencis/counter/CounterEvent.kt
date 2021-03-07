@@ -1,6 +1,6 @@
 package kstuencis.counter
 
-import kstuencis.Event
+import kstuencis.core.Event
 
 sealed class CounterEvent(override val payload: Int): Event<Int> {
     data class Increment(override val payload: Int) : CounterEvent(payload)

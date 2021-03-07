@@ -10,6 +10,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kstuencis.console.ConsoleEmitter
 import kstuencis.console.ConsoleListener
+import kstuencis.core.EmitterSubject
 import kstuencis.counter.CounterEmitEvent
 import kstuencis.counter.CounterParser
 import kstuencis.counter.CounterSerializer
@@ -34,8 +35,8 @@ fun main() = runBlocking {
         openSocket {
             onConnect {
                 listen(messageParser = CounterParser, store = CounterState)
-
-                emitterSubject.register(SocketEmitter(CounterSerializer, this@onConnect))
+                val counterSocketEmitter = SocketEmitter(CounterSerializer, this@onConnect)
+                emitterSubject.register(counterSocketEmitter)
             }
         }
     }

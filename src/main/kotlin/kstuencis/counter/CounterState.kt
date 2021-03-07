@@ -1,7 +1,7 @@
 package kstuencis.counter
 
-import kstuencis.Event
-import kstuencis.Store
+import kstuencis.core.Event
+import kstuencis.core.Store
 
 object CounterState : Store<Int> {
     // TODO - Implement lock or some atomic alternative

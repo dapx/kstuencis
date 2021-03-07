@@ -1,4 +1,4 @@
-package kstuencis
+package kstuencis.core
 
 /**
  * This interface can be implemented as a list of events that can be computed

@@ -2,9 +2,9 @@ package kstuencis.console
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import kstuencis.Listener
-import kstuencis.MessageParser
-import kstuencis.Store
+import kstuencis.core.Listener
+import kstuencis.core.MessageParser
+import kstuencis.core.Store
 
 class ConsoleListener<T>(private val parser: MessageParser<T>, private val store: Store<T>) : Listener {
     override suspend fun listen() = withContext(Dispatchers.Default) {
