@@ -14,37 +14,40 @@ import kstuencis.counter.CounterEmitEvent
 import kstuencis.counter.CounterParser
 import kstuencis.counter.CounterSerializer
 import kstuencis.counter.CounterState
+import kstuencis.socket.SocketEmitter
 import kstuencis.socket.listen
 import kstuencis.socket.openSocket
 
-fun main() {
+fun main() = runBlocking {
     val counterConsoleListener = ConsoleListener(
         parser = CounterParser,
         store = CounterState
     )
 
-    val counterEmitter = ConsoleEmitter(CounterSerializer)
+    // TODO: Compose Emitters to send to all emitters
+    val counterConsoleEmitter = ConsoleEmitter(CounterSerializer)
+    val emitterSubject = EmitterSubject<Int>()
+    emitterSubject.register(counterConsoleEmitter)
 
-    runBlocking {
-        launch {
-            openSocket {
-                onConnect {
-                    println("New connection")
 
-                    listen(messageParser = CounterParser, store = CounterState)
-                }
+    launch {
+        openSocket {
+            onConnect {
+                listen(messageParser = CounterParser, store = CounterState)
+
+                emitterSubject.register(SocketEmitter(CounterSerializer, this@onConnect))
             }
         }
+    }
 
 
-        launch { counterConsoleListener.listen() }
+    launch { counterConsoleListener.listen() }
 
-        // It will work as a game loop with some tick
-        // but at this moment It is a basic delay after computing the state.
-        loop(1000.ms) {
-            val newState = CounterState.compute()
-            counterEmitter.emit(CounterEmitEvent.UpdateState(newState))
-        }
+    // It will work as a game loop with some tick
+    // but at this moment It is a basic delay after computing the state.
+    loop(1000.ms) {
+        val newState = CounterState.compute()
+        emitterSubject.notify(CounterEmitEvent.UpdateState(newState))
     }
 }
 
