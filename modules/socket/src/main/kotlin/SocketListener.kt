@@ -12,10 +12,12 @@ class SocketListener<T>(
     private val store: Store<T>,
     private val socket: Socket
 ) : Listener {
-    override suspend fun listen(): Unit = withContext(Dispatchers.IO) {
-        launch {
-            socket.onMessage { message ->
-                dispatch(message)
+    override suspend fun listen() {
+        withContext(Dispatchers.IO) {
+            launch {
+                socket.onMessage { message ->
+                    dispatch(message)
+                }
             }
         }
     }
