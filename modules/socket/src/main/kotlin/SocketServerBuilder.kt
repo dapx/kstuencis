@@ -1,12 +1,10 @@
 package kstuencis.socket
 
-import kstuencis.socket.internal.NetSocket
-import kstuencis.socket.internal.listenMessages
 import kstuencis.socket.internal.acceptAndExecute
+import kstuencis.socket.internal.listenMessages
 import kstuencis.socket.internal.writeTextToOutputStream
-import java.net.ServerSocket
-
-typealias NetServerSocket = ServerSocket
+import java.net.ServerSocket as NetServerSocket
+import java.net.Socket as NetSocket
 
 private class SocketServerWrapper(private val serverSocket: NetServerSocket) : SocketServer {
     override suspend fun onConnect(block: suspend Socket.() -> Unit) = serverSocket.acceptAndExecute {

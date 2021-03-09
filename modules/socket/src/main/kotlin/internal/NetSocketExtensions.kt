@@ -2,9 +2,7 @@ package kstuencis.socket.internal
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.net.Socket
-
-typealias NetSocket = Socket
+import java.net.Socket as NetSocket
 
 internal suspend fun NetSocket.listenMessages(
     stopMessage: String = "bye",
