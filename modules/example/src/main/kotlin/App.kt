@@ -26,7 +26,6 @@ fun main() = runBlocking {
     val emitterSubject = EmitterSubject<Int>()
     emitterSubject.register(counterConsoleEmitter)
 
-
     launch {
         openSocket {
             onConnect {
@@ -39,7 +38,6 @@ fun main() = runBlocking {
             }
         }
     }
-
 
     launch { counterConsoleListener.listen() }
 
