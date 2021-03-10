@@ -30,9 +30,9 @@ fun main() = runBlocking {
     launch {
         openSocket {
             onConnect {
-                listen(messageParser = CounterParser, store = CounterState)
                 val counterSocketEmitter = SocketEmitter(CounterSerializer, this@onConnect)
                 emitterSubject.register(counterSocketEmitter)
+                listen(messageParser = CounterParser, store = CounterState)
             }
         }
     }
@@ -43,8 +43,9 @@ fun main() = runBlocking {
     // It will work as a game loop with some tick
     // but at this moment It is a basic delay after computing the state.
     loop(1000.ms) {
-        val newState = CounterState.compute()
-        emitterSubject.notify(CounterEmitEvent.UpdateState(newState))
+        CounterState.compute()
+            .let(CounterEmitEvent::UpdateState)
+            .let { emitterSubject.notify(it) }
     }
 }
 
