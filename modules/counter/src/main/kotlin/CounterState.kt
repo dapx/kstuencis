@@ -1,21 +1,22 @@
 package kstuencis.counter
 
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kstuencis.core.Event
 import kstuencis.core.Store
 
 object CounterState : Store<Int> {
-    // TODO - Implement lock or some atomic alternative
-    private var value = 0
+    private val mutableState = MutableStateFlow(0)
 
     override suspend fun dispatch(event: Event<Int>) {
         when (event) {
-            is CounterEvent.Increment -> value += event.payload
-            is CounterEvent.Decrement -> value -= event.payload
+            is CounterEvent.Increment -> mutableState.value += event.payload
+            is CounterEvent.Decrement -> mutableState.value -= event.payload
             is CounterEvent.Unknown -> println("Unknown ${event.rawPayload}")
         }
     }
 
     override fun compute(): Int {
-        return value
+        return mutableState.value
     }
 }

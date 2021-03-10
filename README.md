@@ -50,9 +50,8 @@ echo increment:5 | nc localhost 9999
 
 There are many things that need to be done, I will list some of them:
 
- - Write tests
- - A concurrent and consistent way to have a state
- - A better way to handle the events
- - A gracefully shutdown hook
- - A way to test the interval loop without waiting the interval, maybe using a fake clock.
- - Extract counter and example from rootProject and use includeBuild
+- Write tests
+- A way to test the interval loop without waiting the interval, maybe using the `advanceTimeBy`.
+- A better way to handle the events
+- A gracefully shutdown hook
+- Extract counter and example from rootProject and use includeBuild
