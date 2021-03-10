@@ -30,7 +30,10 @@ fun main() = runBlocking {
     launch {
         openSocket {
             onConnect {
-                val counterSocketEmitter = SocketEmitter(CounterSerializer, this@onConnect)
+                val counterSocketEmitter = SocketEmitter(
+                    messageSerializer = CounterSerializer,
+                    socket = this@onConnect
+                )
                 emitterSubject.register(counterSocketEmitter)
                 listen(messageParser = CounterParser, store = CounterState)
             }
