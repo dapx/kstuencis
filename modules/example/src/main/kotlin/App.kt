@@ -17,9 +17,10 @@ import kstuencis.socket.listen
 import kstuencis.socket.openSocket
 
 fun main() = runBlocking {
+    val counterState = CounterState()
     val counterConsoleListener = ConsoleListener(
         parser = CounterParser,
-        store = CounterState
+        store = counterState
     )
 
     val counterConsoleEmitter = ConsoleEmitter(CounterSerializer)
@@ -34,7 +35,7 @@ fun main() = runBlocking {
                     socket = this@onConnect
                 )
                 emitterSubject.register(counterSocketEmitter)
-                listen(messageParser = CounterParser, store = CounterState)
+                listen(messageParser = CounterParser, store = counterState)
             }
         }
     }
@@ -44,7 +45,7 @@ fun main() = runBlocking {
     // It will work as a game loop with some tick
     // but at this moment It is a basic delay after computing the state.
     loop(1000.ms) {
-        CounterState.compute()
+        counterState.compute()
             .let(CounterEmitEvent::UpdateState)
             .let { emitterSubject.notify(it) }
     }

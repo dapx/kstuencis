@@ -5,8 +5,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kstuencis.core.Event
 import kstuencis.core.Store
 
-object CounterState : Store<Int> {
-    private val mutableState = MutableStateFlow(0)
+class CounterState(initialValue: Int = 0) : Store<Int> {
+    private val mutableState = MutableStateFlow(initialValue)
 
     override suspend fun dispatch(event: Event<Int>) {
         when (event) {
