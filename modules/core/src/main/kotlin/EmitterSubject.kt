@@ -13,7 +13,7 @@ class EmitterSubject<T>(private val emitters: MutableList<Emitter<T>> = mutableL
         // to fix that we copy the list
         emitters.toTypedArray().forEach {
             when (it) {
-                is Validable -> if (it.isInvalid()) emitters.remove(it) else it emit event
+                is Validatable -> if (it.isInvalid) emitters.remove(it) else it emit event
                 else -> it emit event
             }
         }
