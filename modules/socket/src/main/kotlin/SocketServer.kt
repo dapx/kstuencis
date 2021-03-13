@@ -1,5 +1,5 @@
 package kstuencis.socket
 
-interface SocketServer {
+interface SocketServer : AutoCloseable {
     suspend fun onConnect(block: suspend Socket.() -> Unit)
 }
