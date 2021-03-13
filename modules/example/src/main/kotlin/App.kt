@@ -1,10 +1,8 @@
 package kstuencis
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kstuencis.common.loop
 import kstuencis.console.ConsoleEmitter
 import kstuencis.console.ConsoleListener
 import kstuencis.core.EmitterSubject
@@ -14,7 +12,7 @@ import kstuencis.counter.CounterSerializer
 import kstuencis.counter.CounterState
 import kstuencis.socket.SocketEmitter
 import kstuencis.socket.listen
-import kstuencis.socket.openSocket
+import kstuencis.socket.openSocketServer
 
 fun main() = runBlocking {
     val counterState = CounterState()
@@ -28,7 +26,7 @@ fun main() = runBlocking {
     emitterSubject.register(counterConsoleEmitter)
 
     launch {
-        openSocket {
+        openSocketServer {
             onConnect {
                 val counterSocketEmitter = SocketEmitter(
                     messageSerializer = CounterSerializer,
@@ -48,14 +46,6 @@ fun main() = runBlocking {
         counterState.compute()
             .let(CounterEmitEvent::UpdateState)
             .let { emitterSubject.notify(it) }
-    }
-}
-
-// TODO - Gracefully shutdown
-suspend fun loop(interval: Long = 0, block: suspend () -> Any) = withContext(Dispatchers.Default) {
-    while (true) {
-        block()
-        delay(interval)
     }
 }
 

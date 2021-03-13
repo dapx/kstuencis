@@ -11,6 +11,7 @@ application {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":common"))
     implementation(project(":console"))
     implementation(project(":socket"))
     implementation(project(":counter"))
