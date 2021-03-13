@@ -27,10 +27,10 @@ The `decrement` also works.
 
 > When using the Intellij IDEA app run console, the output line break conflicts with the input, giving an error message: Unknown input
 
-You can even send messages through a socket server:
+You can even send and receive messages through a socket server in the same way as the console:
 
 ```shell
-echo increment:5 | nc localhost 9999
+nc localhost 9999
 ```
 
 ## Project Structure
@@ -40,6 +40,7 @@ echo increment:5 | nc localhost 9999
   - kotlin-convention gradle plugin
 - modules:
   - :core (Interfaces and Classes to implement a server)
+  - :common (Common classes and utilities)
   - :console (Console communication implementation)
   - :socket (Socket communication implementation)
   - :counter (Business implementation as counter)
@@ -50,8 +51,6 @@ echo increment:5 | nc localhost 9999
 
 There are many things that need to be done, I will list some of them:
 
-- Write tests
-- A way to test the interval loop without waiting the interval, maybe using the `advanceTimeBy`.
 - A better way to handle the events
 - A gracefully shutdown hook
 - Extract counter and example from rootProject and use includeBuild
